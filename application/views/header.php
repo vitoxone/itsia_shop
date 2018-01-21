@@ -32,12 +32,12 @@
 				<ul class="menu">
 					<li class="has-children active"><span><a href="<?php echo base_url(); ?>home"><span>Home</span></a></span></span>
 					</li>
-					<li class="has-children"><span><a href="shop-grid-ls.html"><span>Productos</span></a><span class="sub-menu-toggle"></span></span>
+					<li class="has-children"><span><a href="<?php echo base_url(); ?>products/"><span>Productos</span></a><span class="sub-menu-toggle"></span></span>
 						<ul class="offcanvas-submenu">
 <?php
 				foreach ($categories as $category):
 ?>						
-								<li><a href="<?php echo base_url(); ?>products/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a></li>
+								<li><a href="<?php echo base_url(); ?>products/index/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a></li>
 
 <?php    endforeach;
 ?>								
