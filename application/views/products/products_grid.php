@@ -28,6 +28,7 @@
 							<div class="grid-sizer"></div>
 
 <?php 
+					if(!empty($products)):
 						foreach ($products as $index => $product):
 ?>   
 								<div class="grid-item">
@@ -53,6 +54,7 @@
 								</div>
 <?php 
 						endforeach;
+					endif;
 ?>
 
 						</div>
