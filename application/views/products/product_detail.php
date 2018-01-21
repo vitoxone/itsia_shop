@@ -26,7 +26,7 @@
 								foreach ($product->images as $i => $image):
 									 ($i == 0) ? $class = 'active' : $class = '';
 ?>									
-	                <div class="gallery-item <?php echo $class; ?>"><a href="<?php echo base_url(); ?>assets/img/products/<?php echo $image->url?>" data-hash="one" data-size="1000x667"></a></div>
+	                <div class="gallery-item <?php echo $class; ?>"><a href="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $image->url?>" data-hash="one" data-size="1000x667"></a></div>
 <?php           endforeach;
 							endif;
 ?>
@@ -36,7 +36,7 @@
 								foreach ($product->images as $j => $image):
 									 ($j == 0) ? $class = 'active' : $class = '';
 ?>	
-                <div data-hash="<?php echo $j; ?>"><img src="<?php echo base_url(); ?>assets/img/products/<?php echo $image->url?>" alt="Product"></div>
+                <div data-hash="<?php echo $j; ?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $image->url?>" alt="Product"></div>
 <?php           endforeach;
 							endif;
 ?>
@@ -46,7 +46,7 @@
 								foreach ($product->images as $k => $image):
 									 ($k == 0) ? $class = 'active' : $class = '';
 ?>
-                <li class="<?php echo $class; ?>"><a href="#<?php echo $k ?>"><img src="<?php echo base_url(); ?>assets/img/products/<?php echo $image->url?>" alt="Product"></a></li>
+                <li class="<?php echo $class; ?>"><a href="#<?php echo $k ?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $image->url?>" alt="Product"></a></li>
 
 <?php           endforeach;
 							endif;
