@@ -18,7 +18,7 @@ class Products extends CI_Controller {
    		$product->images = $this->Products_model->get_images_product($product->id_product);
    	}
 
-   	$data['products'] = array_merge($products,array_merge($products, array_merge($products, $products)));
+   	$data['products'] = $products;
 
    	$this->load->view('header', $data_header);
 		$this->load->view('products/products_grid', $data);
