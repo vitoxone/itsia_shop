@@ -127,7 +127,14 @@ class Products_model extends CI_Model
         } else {
             return false;
         }
-    
    }
+
+   public function update_visualization_number($id_product, $views){
+
+   	var_dump($views); 
+
+        $this->db->query("UPDATE products SET views=$views WHERE id_product = $id_product"); 
+        var_dump($views);
+    }
 
 }

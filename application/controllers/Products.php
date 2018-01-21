@@ -14,9 +14,11 @@ class Products extends CI_Controller {
 
 		$products = [];
    	$products = $this->Products_model->get_products($category);
-   	foreach ($products as $product) {
-   		$product->images = $this->Products_model->get_images_product($product->id_product);
-   	}
+   	if(!empty($products)){
+	   	foreach ($products as $product) {
+	   		$product->images = $this->Products_model->get_images_product($product->id_product);
+	   	}
+	   }
 
    	$data['products'] = $products;
 
@@ -39,6 +41,8 @@ class Products extends CI_Controller {
 			$product = $this->Products_model->get_product_by_slug($slug);
 			$product->images = $this->Products_model->get_images_product($product->id_product);
 			$product->url_video =  str_replace("watch?v=", "embed/", $product->url_video);
+
+			//$this->Products_model->update_visualization_number($product->id_product, (int)($product->views)+1);
 
 			$data['product'] = $product;
 
