@@ -5,14 +5,14 @@
 			<div class="page-title">
 				<div class="container">
 					<div class="column">
-						<h1>Shop Grid Left Sidebar</h1>
+						<h1>Listado de productos</h1>
 					</div>
 					<div class="column">
 						<ul class="breadcrumbs">
-							<li><a href="index.html">Home</a>
+							<li><a href="<?php echo base_url(); ?>home/#productos"?>Home</a>
 							</li>
 							<li class="separator">&nbsp;</li>
-							<li>Shop Grid Left Sidebar</li>
+							<li>Listado de productos</li>
 						</ul>
 					</div>
 				</div>
