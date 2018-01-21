@@ -47,7 +47,6 @@
  <?php            	endif;
  ?>  
 										<div class="product-buttons">
-											<button class="btn btn-outline-secondary btn-sm btn-wishlist" data-toggle="tooltip" title="Whishlist"><i class="icon-heart"></i></button>
 											<button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!">Cotizar</button>
 										</div>
 									</div>
