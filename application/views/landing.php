@@ -23,7 +23,7 @@
  ?>             
                   </div><a class="btn btn-primary scale-up delay-1" href="shop-grid-ls.html">Cotizar ahora</a>
                 </div>
-                <div class="col-md-6 padding-bottom-2x mb-3"><img class="d-block mx-auto" src="<?php echo base_url(); ?>assets/img/products/<?php echo $slider_product->images[0]->url?>" alt="Puma Backpack"></div>
+                <div class="col-md-6 padding-bottom-2x mb-3"><img class="d-block mx-auto" src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $slider_product->images[0]->url?>" alt="Puma Backpack"></div>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
 	          <!-- Product-->
 	          <div class="grid-item">
 	            <div class="product-card">
-	              <div class="product-badge text-danger"><?php echo $product->category_name_single ?></div><a class="product-thumb" href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><img src="<?php echo base_url(); ?>assets/img/products/<?php echo $product->images[0]->url?>" alt="Product"></a>
+	              <div class="product-badge text-danger"><?php echo $product->category_name_single ?></div><a class="product-thumb" href="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $product->slug?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $product->images[0]->url?>" alt="Product"></a>
 	              <h3 class="product-title"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name ?></a></h3>
  	              
 <?php             if($slider_product->show_value):
