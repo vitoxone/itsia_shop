@@ -21,7 +21,7 @@
                     	<div class="h2 text-body text-normal mb-4 pb-1"> <span class="text-bold">$<?php echo $slider_product->sell_value_iva ?></span></div>
  <?php               endif;
  ?>             
-                  </div><a class="btn btn-primary scale-up delay-1" href="shop-grid-ls.html">Cotizar ahora</a>
+                  </div><a class="btn btn-primary scale-up delay-1" href="<?php echo base_url(); ?>products/add_to_cart/<?php echo $slider_product->slug?>">Cotizar ahora</a>
                 </div>
                 <div class="col-md-6 padding-bottom-2x mb-3"><img class="d-block mx-auto" src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $slider_product->images[0]->url?>" alt="Puma Backpack"></div>
               </div>

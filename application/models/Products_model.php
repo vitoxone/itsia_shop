@@ -66,6 +66,7 @@ class Products_model extends CI_Model
             ->from('products p')
             ->join('brands b', 'p.brand = b.id_brand')
             ->join('categories c', 'p.category = c.id_category')
+            ->where('p.slug', $slug)
             ->where('p.deleted', 0)
             ->where('b.deleted', 0)
             ->where('p.active', 1)
@@ -78,7 +79,27 @@ class Products_model extends CI_Model
         } else {
             return false;
         }
-    
+   }
+   public function get_product_by_id($id_product = null){
+
+        $this->db
+            ->select('p.*, c.name as category_name, c.single_name as category_name_single, c.slug as category_slug, b.img_name as image_brand')
+            ->from('products p')
+            ->join('brands b', 'p.brand = b.id_brand')
+            ->join('categories c', 'p.category = c.id_category')
+            ->where('p.id_product', $id_product)
+            ->where('p.deleted', 0)
+            ->where('b.deleted', 0)
+            ->where('p.active', 1)
+            ->where('b.active', 1);
+
+        $consulta = $this->db->get();
+
+        if ($consulta->num_rows() > 0) {
+            return $consulta->row();
+        } else {
+            return false;
+        }
    }
    public function get_slider_products(){
 
