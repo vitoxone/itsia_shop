@@ -158,4 +158,37 @@ class Products_model extends CI_Model
         var_dump($views);
     }
 
+    public function get_regiones()
+    {
+        $this->db
+            ->select('*')
+            ->from('regiones')
+            ->where('activo', '1')
+            ->order_by('orden', 'asc');
+
+        $consulta = $this->db->get();
+
+        if ($consulta->num_rows() > 0) {
+            return $consulta->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function get_comunas_by_region($id_region)
+    {
+        $this->db
+            ->select('c.*')
+            ->from('comunas c')
+            ->where('c.region', $id_region);
+
+        $consulta = $this->db->get();
+
+        if ($consulta->num_rows() > 0) {
+            return $consulta->result();
+        } else {
+            return false;
+        }
+    }
+
 }

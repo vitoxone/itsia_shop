@@ -96,6 +96,12 @@ class Products extends CI_Controller {
 		$categories = [];
 		$categories = $this->Products_model->get_categories();
 
+		$regiones = $this->Products_model->get_regiones();
+
+     foreach($regiones as $region){
+         $regiones_value[] = array('id_region' => $region->id_region, 'nombre' => $region->region);
+     }
+
 		$data_header['categories'] = $categories;
 
 		$quotation_request_list = get_cookie('quotation_request');
@@ -117,10 +123,16 @@ class Products extends CI_Controller {
 		}
 
 		$data['quotation_request'] = $product_list;
+		$data['regiones']          = json_encode($regiones_value);
 
 		$this->load->view('header', $data_header);
 		$this->load->view('products/shoping_cart', $data);
 		$this->load->view('footer');
+	}
+
+	public function shoping_cart_delete(){
+			delete_cookie('quotation_request');
+
 	}
 
 	/**
