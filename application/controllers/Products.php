@@ -5,6 +5,7 @@ class Products extends CI_Controller {
 	public $components = array('Cookie');
 
 	public function index($category = null){
+		$this->load->helper('funciones');
 		$this->load->model('Products_model');
 
 		$categories = [];
@@ -16,6 +17,8 @@ class Products extends CI_Controller {
    	$products = $this->Products_model->get_products($category);
    	if(!empty($products)){
 	   	foreach ($products as $product) {
+	   		$product->sell_value = moneda_chilena($product->sell_value);
+   			$product->sell_value_iva = moneda_chilena($product->sell_value_iva);
 	   		$product->images = $this->Products_model->get_images_product($product->id_product);
 	   	}
 	   }
@@ -30,6 +33,7 @@ class Products extends CI_Controller {
 	public function product_detail($slug = null)
 	{
 
+		$this->load->helper('funciones');
 		$this->load->model('Products_model');
 
 		$categories = [];
@@ -39,6 +43,8 @@ class Products extends CI_Controller {
 
 		$product = [];
 		$product = $this->Products_model->get_product_by_slug($slug);
+		$product->sell_value = moneda_chilena($product->sell_value);
+   	$product->sell_value_iva = moneda_chilena($product->sell_value_iva);
 		$product->images = $this->Products_model->get_images_product($product->id_product);
 		$product->url_video =  str_replace("watch?v=", "embed/", $product->url_video);
 
@@ -115,15 +121,14 @@ class Products extends CI_Controller {
 				$product = [];
 				$product = $this->Products_model->get_product_by_id($item->id_product);
 				$product->images = $this->Products_model->get_images_product($product->id_product);
-				$product->url_video =  str_replace("watch?v=", "embed/", $product->url_video);
 				$product->cantidad = $item->cantidad;
 
-				$product_list[] = $product;
+				$product_list[] = array('id_product' => $product->id_product, 'name' => $product->name, 'slug' => $product->slug, 'image_name' => $product->images[0]->url, 'cantidad' => $product->cantidad, 'category_name' => $product->category_name_single);
 			}
 		}
 
-		$data['quotation_request'] = $product_list;
 		$data['regiones']          = json_encode($regiones_value);
+		$data['quotation_request'] = json_encode($product_list);
 
 		$this->load->view('header', $data_header);
 		$this->load->view('products/shoping_cart', $data);
@@ -134,6 +139,67 @@ class Products extends CI_Controller {
 			delete_cookie('quotation_request');
 
 	}
+
+	public function borrar_carro(){
+		$this->load->model('Products_model');
+		$this->load->helper('cookie');
+		delete_cookie('quotation_request');
+
+		$quotation_request_list = get_cookie('quotation_request');
+
+		$quotation_request = json_decode($quotation_request_list);
+
+		$product_list = [];
+		if(!empty($quotation_request)){
+
+			foreach ($quotation_request as $item) {
+				$product = [];
+				$product = $this->Products_model->get_product_by_id($item->id_product);
+				$product->images = $this->Products_model->get_images_product($product->id_product);
+				$product->cantidad = $item->cantidad;
+
+				$product_list[] = array('id_product' => $product->id_product, 'name' => $product->name, 'slug' => $product->slug, 'image_name' => $product->images[0]->url, 'cantidad' => $product->cantidad, 'category_name' => $product->category_name_single);
+			}
+		}
+
+		json_encode($product_list);
+	}
+
+	public function get_comunas_region()
+    {
+        $this->load->model('Products_model');
+
+        $id_region = $this->input->post('region');
+
+        $comunas = $this->Products_model->get_comunas_by_region($id_region);
+        if($comunas){
+            foreach ($comunas as $comuna)
+            {
+                 $comunas_values[] = array('id_comuna' => $comuna->id, 'nombre' => $comuna->comuna);
+            }
+            echo json_encode($comunas_values);
+        }else{
+            echo '{}';
+        }
+
+    }
+
+    public function save_quotation_order(){
+    	$this->load->model('Products_model');
+
+        $products = $this->input->post('products');
+        $datos_solicitante = $this->input->post('datos_solicitante');
+
+        $id_quotation_order = $this->Products_model->set_quotation_order($datos_solicitante['nombre'], $datos_solicitante['apellido'], $datos_solicitante['rut'], $datos_solicitante['email'], $datos_solicitante['telefono'], $datos_solicitante['direccion'], $datos_solicitante['region']['id_region'], $datos_solicitante['comuna']['id_comuna']);
+        
+        if($id_quotation_order){
+	        	foreach ($products as $product) {
+	        		$this->Products_model->set_item_quotation_order($product['id_product'], $id_quotation_order, $product['cantidad']);
+	        	}
+        }
+        delete_cookie('quotation_request');
+        echo true;
+    }
 
 	/**
 	 * Funcion que devuelve un array con los valores:

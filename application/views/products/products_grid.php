@@ -34,21 +34,21 @@
 								<div class="grid-item">
 									<div class="product-card">
 										<div class="product-badge text-danger"><?php echo $product->category_name_single ?></div><a class="product-thumb" href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $product->images[0]->url?>" alt="Product"></a>
-										<h3 class="product-title"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name?></a></h3>
+										<h3 class="product-title" style="min-height: 40px;"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name?></a></h3>
 <?php             	if($product->show_value):
 ?>                    
  											<h4 class="product-price">
-	                			$<?php echo $product->sell_value?>
+	                			<?php echo $product->sell_value?>
 	              			</h4>
 <?php             	elseif ($product->show_value_iva):
 ?>
  											<h4 class="product-price">
-	                			$<?php echo $product->sell_value_iva ?>
+	                			<?php echo $product->sell_value_iva ?>
 	              			</h4>
  <?php            	endif;
  ?>  
 										<div class="product-buttons">
-											<button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!">Cotizar</button>
+											<button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!" ng-click="<?php echo base_url(); ?>products/add_to_cart/<?php echo $product->slug?>">Cotizar</button>
 										</div>
 									</div>
 								</div>

@@ -29,119 +29,152 @@
                 </div>
                 <h4 class="step-title">Generar solicitud cotización</h4>
               </div>
+              <div class="step {{vm.step_three}}">
+                <div class="step-icon-wrap">
+                  <div class="step-icon"><i class="pe-7s-check"></i></div>
+                </div>
+                <h4 class="step-title">Resultado</h4>
+              </div>
             </div>        
-        <div class="table-responsive shopping-cart" ng-show= "vm.mostrar_items_factura">
+        <div class="table-responsive shopping-cart" ng-show= "vm.mostrar_items_cotizacion">
           <table class="table">
             <thead>
               <tr>
                 <th>Producto</th>
                 <th class="text-center">Cantidad</th>
-                <th class="text-center"><a class="btn btn-sm btn-outline-danger" href="#">Borrar carro</a></th>
+                <th class="text-center"><a class="btn btn-sm btn-outline-danger" ng-click = "vm.borrar_carro()">Borrar carro</a></th>
               </tr>
             </thead>
             <tbody>
 <?php 
 					if(!empty($quotation_request)):
-						foreach ($quotation_request as $index => $product):
 ?>   
-              <tr>
+              <tr ng-repeat="quotation_request in vm.quotation_requests">
                 <td>
-                  <div class="product-item"><a class="product-thumb" href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $product->images[0]->url?>" alt="Product"></a>
+                  <div class="product-item"><a class="product-thumb" href="<?php echo base_url(); ?>products/product_detail/{{quotation_request.slug}}"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/{{quotation_request.image_name}}" alt="Product"></a>
                     <div class="product-info">
-                      <h4 class="product-title"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name?></a></h4><span><em>Tipo:</em> <?php echo $product->category_name_single ?></span>
+                      <h4 class="product-title"><a href="<?php echo base_url(); ?>products/product_detail/{{quotation_request.slug}}">{{quotation_request.name}}</a></h4><span><em>Tipo:</em> {{quotation_request.category_name}}</span>
                     </div>
                   </div>
                 </td>
                 <td class="text-center">
                   <div class="count-input">
-                    <select class="form-control">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
+											<input ng-model="quotation_request.cantidad" class="form-control"/>
                   </div>
                 </td>
                 <td class="text-center"><a class="remove-from-cart" href="#" data-toggle="tooltip" title="Remove item"><i class="icon-cross"></i></a></td>
               </tr>
 <?php 
-						endforeach;
 					endif;
 ?>
             </tbody>
           </table>
         </div>
-        <div ng-show="vm.mostrar_datos_factura_persona" class="col-xl-12 col-lg-12">
-            <h4>Datos Cotización</h4>
-            <hr class="padding-bottom-1x">
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-fn">Nombre</label>
-                  <input class="form-control" type="text" id="checkout-fn">
+        <div ng-show="vm.mostrar_datos_cotizacion_persona" class="col-xl-12 col-lg-12">
+	        <form name="userForm" novalidate> 
+	            <h4>Datos Cotización</h4>
+	            <hr class="padding-bottom-1x">
+	            <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group required" ng-class="{ 'has-error': userForm.nombres.$touched && userForm.nombres.$invalid }">
+                    <label class="col-lg-3" for="content"><p>Nombre<bold style="color:  red;">*</bold></p></label>
+                    <div class="col-lg-9">
+                        <input ng-model = "vm.datos_solicitante.nombre" name="nombres" class="form-control" required/>
+                        <div class="help-block" ng-messages="userForm.nombres.$error" ng-if="userForm.nombres.$touched" style="color: red;">
+                        <p ng-message="required">Campo requerido</p>
+                      </div>
+       
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-ln">Apellido</label>
-                  <input class="form-control" type="text" id="checkout-ln">
+                <div class="col-md-4">
+                  <div class="form-group required" ng-class="{ 'has-error': userForm.apellido_paterno.$touched && userForm.apellido_paterno.$invalid }">
+                    <label class="col-lg-3" for="content"><p>Apellido<bold style="color:  red;">*</bold></p></label>
+                    <div class="col-lg-9">
+                        <input ng-model = "vm.datos_solicitante.apellido" name="apellido_paterno" class="form-control" required/>
+                        <div class="help-block" ng-messages="userForm.apellido_paterno.$error" ng-if="userForm.apellido_paterno.$touched" style="color: red;">
+                        <p ng-message="required">Campo requerido</p>
+                      </div>
+       
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-email">Rut</label>
-                  <input class="form-control" type="email" id="checkout-email">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-email">Correo electrónico</label>
-                  <input class="form-control" type="email" id="checkout-email">
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-phone">Telefono</label>
-                  <input class="form-control" type="text" id="checkout-phone">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-phone">Dirección</label>
-                  <input class="form-control" type="text" id="checkout-phone">
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-city">Región</label>
-                  <select class="form-control" name="tipo_documento" ng-change="vm.cargar_comunas()" ng-options="region.nombre for region in vm.regiones track by region.id_region" ng-model="vm.cotizacion.region" title="Seleccione región" required>
-                  	<option>Seleccione comuna</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="checkout-city">Comuna</label>
-                  <select class="form-control" name="tipo_documento" ng-options="comuna.nombre for comuna in vm.comunas track by comuna.id_comuna" ng-model="vm.cotizacion.comuna" title="Seleccione comuna" required>
-                  	<option>Seleccione comuna</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <hr class="padding-bottom-1x">
+	               <div class="col-md-4">
+	                <div class="form-group required" ng-class="{ 'has-error': userForm.rut.$touched && userForm.rut.$invalid}">
+	                  <label class="col-lg-3" for="content"><p>Rut<bold style="color:  red;">*</bold></p></label>
+	                  <div class="col-lg-9">
+	                      <input ng-rut rut-format="live" ng-model = "vm.datos_solicitante.rut" name="rut" class="form-control" style="text-transform:uppercase" required/>
+	                      <div class="help-block" ng-messages="userForm.rut.$error" ng-if="userForm.rut.$touched" style="color: red;">
+	                      <p ng-message="required">Campo requerido</p>
+	                      <p ng-message="rut">Rut invalido</p>
+	                    </div>
+	     
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="row">
+	              <div class="col-md-4">
+	                <div class="form-group required" ng-class="{ 'has-error': userForm.email.$touched && userForm.email.$invalid }">
+	                  <label class="col-lg-3"><p>Email<bold style="color:  red;">*</bold></p></label>
+	                  <div class="col-lg-9">
+	                    <input type="email" name="email" class="form-control" ng-model="vm.datos_solicitante.email" required>  
+	                    <div class="help-block" ng-messages="userForm.email.$error" ng-if="userForm.email.$touched" style="color: red;">
+	                      <p ng-message="required">Campo requerido</p>
+	                      <p ng-message="email">Ingrese email válido</p>
+	                    </div>
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-4">
+	                <div class="form-group">
+	                  <label for="checkout-phone"><p>Telefono<bold></bold></p></label>
+	                  <input ng-model = "vm.datos_solicitante.telefono" class="form-control" type="number" id="checkout-phone" ng-maxlength="10">
+	                </div>
+	              </div>
+	            </div>
+	            <div class="row">
+	              <div class="col-sm-4">
+	                <div class="form-group">
+	                  <label for="checkout-phone">Dirección</label>
+	                  <input ng-model = "vm.datos_solicitante.direccion" class="form-control" type="text" id="checkout-address">
+	                </div>
+	              </div>
+	              <div class="col-sm-4">
+	                <div class="form-group">
+	                  <label for="checkout-city">Región</label>
+	                  <select class="form-control" name="tipo_documento" ng-change="vm.cargar_comunas()" ng-options="region.nombre for region in vm.regiones track by region.id_region" ng-model = "vm.datos_solicitante.region">
+	                  	<option>Seleccione Region</option>
+	                  </select>
+	                </div>
+	              </div>
+	              <div class="col-sm-4">
+	                <div class="form-group">
+	                  <label for="checkout-city">Comuna</label>
+	                  <select class="form-control" name="tipo_documento" ng-options="comuna.nombre for comuna in vm.comunas track by comuna.id_comuna" ng-model = "vm.datos_solicitante.comuna" title="Seleccione comuna">
+	                  	<option>Seleccione comuna</option>
+	                  </select>
+	                </div>
+	              </div>
+	            </div>
+	            <hr class="padding-bottom-1x">
+            </form>
           </div>
+	       <div ng-show="vm.mostrar_resultado" class="container padding-bottom-3x mb-2">
+	        <div class="card text-center">
+	          <div class="card-block padding-top-2x">
+	            <h3 class="card-title">Gracias por la solicitud!</h3>
+	            <p class="card-text">Hemos recibido su solicitud de cotización.</p>
+	            <p class="card-text">Nos comunicaremos a la brevedad  con usted para enviarle la información.</p>
+	          </div>
+	        </div>
+	      </div>
         <div class="shopping-cart-footer">
           <div class="column"><a class="btn btn-outline-secondary" href="<?php echo base_url(); ?>products/"><i class="icon-arrow-left"></i>&nbsp;Volver a Productos</a></div>
           <div class="column">
-            <button class="btn btn-warning" ng-show="vm.mostrar_datos_factura_persona" ng-click = "vm.volver_items()">Volver a Items</button>
-          	<button class="btn btn-primary" href="<?php echo base_url(); ?>products/shoping_cart" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart" data-toast-message="is updated successfully!">Actualizar</button>
-          	<button class="btn btn-success" ng-show="vm.mostrar_items_factura" ng-click = "vm.ingresar_datos()" >Siguiente</button>
-          	<button class="btn btn-success" ng-show="vm.mostrar_datos_factura_persona" ng-click = "vm.generar_orden_cotizacion()" >Solicitar Cotización</button>
+            <button class="btn btn-warning" ng-show="vm.mostrar_datos_cotizacion_persona" ng-click = "vm.volver_items()">Volver a Items</button>
+          	<button class="btn btn-success" ng-show="vm.mostrar_items_cotizacion && vm.quotation_requests.length > 0" ng-click = "vm.ingresar_datos()" >Siguiente</button>
+          	<button class="btn btn-success" ng-show="vm.mostrar_datos_cotizacion_persona" ng-click="vm.validar_formulario(userForm)" >Solicitar Cotización</button>
           	</div>
         </div>
       </div>
@@ -150,11 +183,10 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular.min.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular-touch.min.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular-animate.min.js"></script>
-
+  <script src="<?php echo base_url(); ?>assets/js/angular-flash.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/rut.js"></script>
-  , 
-  <script src="<?php echo base_url(); ?>assets/js/angular-flash.js"></script>
+  
 <script>
 (function(){
     'use strict';
@@ -170,9 +202,11 @@
         vm.reverse = false;
         vm.step_one = 'completed';
         vm.step_two = '';
-        vm.mostrar_datos_factura_persona = false;
-        vm.mostrar_items_factura  = true;
+        vm.mostrar_datos_cotizacion_persona = false;
+        vm.mostrar_items_cotizacion  = true;
+        vm.mostrar_resultado = false;
         vm.regiones = JSON.parse('<?php echo $regiones; ?>');
+        vm.quotation_requests = JSON.parse('<?php echo $quotation_request; ?>');
 
         vm.usuario = {};
 
@@ -182,10 +216,12 @@
             }
         }
       vm.ingresar_datos       = ingresar_datos;  
-      vm.guardar_usuario      = guardar_usuario;
-      vm.validar_formulario   = validar_formulario;
+      vm.guardar_solicitud_cotizacion      = guardar_solicitud_cotizacion;
+      // vm.validar_formulario   = validar_formulario;
       vm.cargar_comunas       = cargar_comunas;
       vm.volver_items         = volver_items;
+      vm.validar_formulario = validar_formulario;
+      vm.borrar_carro = borrar_carro;
 
       //vm.usuario.color = '#dfdfdf';
       vm.customSettings = {
@@ -194,15 +230,15 @@
         position: 'top left'
       };
 
-
-
     function validar_formulario(userForm){
       var error =false;
 
-      if(userForm.especialidad.$invalid){
-        userForm.especialidad.$touched = true;
+
+      if(userForm.rut.$invalid){
+        userForm.rut.$touched = true;
         error = true;
       }
+
       if(userForm.nombres.$invalid){
         userForm.nombres.$touched = true;
         error = true;
@@ -211,52 +247,60 @@
         userForm.apellido_paterno.$touched = true;
         error = true;
       }
-      if(userForm.nombre_usuario.$invalid){
-        userForm.nombre_usuario.$touched = true;
-        error = true;
-      }
-      if(userForm.password.$invalid){
-        userForm.password.$touched = true;
-        error = true;
-      }
       if(userForm.email.$invalid){
         userForm.email.$touched = true;
         error = true;
       }
 
       if(!error){
-        guardar_usuario();
+       guardar_solicitud_cotizacion();
       }
 
     }
 
     function ingresar_datos(){
-    	vm.mostrar_items_factura  = false;
-    	vm.mostrar_datos_factura_persona = true;
+    	vm.mostrar_items_cotizacion  = false;
+    	vm.mostrar_datos_cotizacion_persona = true;
+    	vm.mostrar_resultado = false;
     	vm.step_one = '';
       vm.step_two = 'completed';
+      vm.step_three = '';
+    }
 
+    function mostrar_result(){
+    	vm.mostrar_items_cotizacion  = false;
+    	vm.mostrar_datos_cotizacion_persona = false;
+    	vm.mostrar_resultado = true;
+    	vm.step_one = '';
+      vm.step_two = '';
+      vm.step_three = 'completed';
     }
 
     function volver_items(){
-    	vm.mostrar_items_factura  = true;
-    	vm.mostrar_datos_factura_persona = false;
+    	vm.mostrar_items_cotizacion  = true;
+    	vm.mostrar_datos_cotizacion_persona = false;
+    	vm.mostrar_resultado = false;
     	vm.step_one = 'completed';
       vm.step_two = '';
+      vm.step_three = '';
 
     }
 
 
-    function guardar_usuario(){
+
+    function guardar_solicitud_cotizacion(){
           var data = $.param({
-          usuario: vm.usuario
+          products: vm.quotation_requests,
+          datos_solicitante : vm.datos_solicitante
       });
 
-      $http.post('<?php echo base_url(); ?>usuarios/update_usuario', data, config)
+
+      $http.post('<?php echo base_url(); ?>products/save_quotation_order', data, config)
           .then(function(response){
               if(response.data !== 'false'){
                 if(response.data){
                  console.log(response.data);
+                 mostrar_result();
                  // window.location ='<?php echo base_url(); ?>usuarios/listado_usuarios/';
 
                 }
@@ -267,15 +311,27 @@
           }
       );
      }
+
+     function borrar_carro(){
+        $http.post('<?php echo base_url(); ?>products/borrar_carro', config)
+            .then(function(response){
+                if(response.data !== 'false'){
+                  vm.quotation_requests = response.data;
+                }
+            },
+            function(response){
+                console.log("error al obtener comunas.");
+            }
+        );
+     }
      function cargar_comunas(){
           var data = $.param({
-          region: vm.paciente.region.id_region,
+          region: vm.datos_solicitante.region.id_region,
       });
-      //reinicio el valor de la comuna seleccionada para el paciente
-      vm.paciente.comuna = '';
-      if(vm.paciente.region.id_region){
 
-        $http.post('<?php echo base_url(); ?>regiones/get_comunas_region', data, config)
+      if(vm.datos_solicitante.region.id_region){
+
+        $http.post('<?php echo base_url(); ?>products/get_comunas_region', data, config)
             .then(function(response){
                 if(response.data !== 'false'){
                   vm.comunas = response.data;

@@ -6,6 +6,7 @@ class Home extends CI_Controller {
 	public function index()
 	{
 
+		$this->load->helper('funciones');
 		$this->load->model('Products_model');
 
 		$categories = [];
@@ -18,6 +19,8 @@ class Home extends CI_Controller {
 
    		foreach ($products as $product) {
    			$product->images = $this->Products_model->get_images_product($product->id_product);
+   			$product->sell_value = moneda_chilena($product->sell_value);
+   			$product->sell_value_iva = moneda_chilena($product->sell_value_iva);
    		}
    		$data['products'] = $products;
 
@@ -26,6 +29,8 @@ class Home extends CI_Controller {
 
    		foreach ($slider_products as $slider_product) {
    			$slider_product->images = $this->Products_model->get_images_product($slider_product->id_product);
+   			$slider_product->sell_value_iva = moneda_chilena($slider_product->sell_value_iva);
+   			$slider_product->sell_value = moneda_chilena($slider_product->sell_value);
    		}
    		$data['slider_products'] = $slider_products;
 

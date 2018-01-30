@@ -191,4 +191,42 @@ class Products_model extends CI_Model
         }
     }
 
+    public function set_quotation_order($nombre, $apellido, $rut, $email, $telefono, $direccion, $region, $comuna)
+    {
+
+        $data = array(
+            'first_name_user'  	=> $nombre,
+            'last_name_user'    => $apellido,
+            'rut_user'          => $rut,
+            'email'  			=> $email,
+            'phone'  			=> $telefono,
+            'address_user'  	=> $direccion,
+            'city'  			=> $region,
+            'comuna'  			=> $comuna,
+
+        );
+
+        $this->db->set('created', 'NOW()', false);
+                $this->db->insert('quotation_request', $data);
+
+        return $this->db->insert_id();
+
+    }
+
+    public function set_item_quotation_order($id_product, $id_quotation_order, $quantity)
+    {
+
+        $data = array(
+            'product'  	=> $id_product,
+            'quotation_request'    => $id_quotation_order,
+            'quantity'          => $quantity
+        );
+
+        $this->db->set('created', 'NOW()', false);
+                $this->db->insert('quotations_request_item', $data);
+
+        return $this->db->insert_id();
+
+    }
+
 }

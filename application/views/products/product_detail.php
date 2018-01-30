@@ -62,12 +62,12 @@
 <?php       if($product->show_value):
 ?>     
 	            <span class="h2 d-block">
-	              $<?php echo $product->sell_value ?> + IVA
+	              <?php echo $product->sell_value ?> + IVA
 	             </span>               
 <?php       elseif ($product->show_value_iva):
 ?>
 							<span class="h2 d-block">
-	              $<?php echo $product->sell_value_iva ?>
+	              <?php echo $product->sell_value_iva ?>
 	             </span>
  <?php      endif;
  ?>  
@@ -91,12 +91,11 @@
             <hr class="mb-3">
             <div class="d-flex flex-wrap justify-content-between">
               <div class="sp-buttons mt-2 mb-2" style="padding: 0px 0px 0px 70%;">
-                <button class="btn btn-primary" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="icon-bag"></i> Cotizar</button>
+                <button class="btn btn-primary" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!" ng-click="<?php echo base_url(); ?>products/add_to_cart/<?php echo $product->slug?>><i class="icon-bag"></i> Cotizar</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- Product Tabs-->
         <div class="row padding-top-3x mb-3">
           <div class="col-lg-10 offset-lg-1">
             <ul class="nav nav-tabs" role="tablist">

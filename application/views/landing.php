@@ -15,10 +15,10 @@
                     <div class="h2 text-body text-normal mb-2 pt-1"><?php echo $slider_product->category_name_single ?> <?php echo $slider_product->name ?></div>
 <?php                if($slider_product->show_value):
 ?>                    
-                    	<div class="h2 text-body text-normal mb-4 pb-1"> <span class="text-bold">$<?php echo $slider_product->sell_value ?> + IVA</span></div>
+                    	<div class="h2 text-body text-normal mb-4 pb-1"> <span class="text-bold"><?php echo $slider_product->sell_value ?> + IVA</span></div>
 <?php                elseif ($slider_product->show_value_iva):
 ?>
-                    	<div class="h2 text-body text-normal mb-4 pb-1"> <span class="text-bold">$<?php echo $slider_product->sell_value_iva ?></span></div>
+                    	<div class="h2 text-body text-normal mb-4 pb-1"> <span class="text-bold"><?php echo $slider_product->sell_value_iva ?></span></div>
  <?php               endif;
  ?>             
                   </div><a class="btn btn-primary scale-up delay-1" href="<?php echo base_url(); ?>products/add_to_cart/<?php echo $slider_product->slug?>">Cotizar ahora</a>
@@ -43,17 +43,17 @@
 	          <div class="grid-item">
 	            <div class="product-card">
 	              <div class="product-badge text-danger"><?php echo $product->category_name_single ?></div><a class="product-thumb" href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><img src="https://s3-us-west-1.amazonaws.com/itsiaproducts/<?php echo $product->images[0]->url?>" alt="Product"></a>
-	              <h3 class="product-title"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name ?></a></h3>
+	              <h3 class="product-title" style="min-height: 40px;"><a href="<?php echo base_url(); ?>products/product_detail/<?php echo $product->slug?>"><?php echo $product->name ?></a></h3>
  	              
 <?php             if($slider_product->show_value):
 ?>                    
  					<h4 class="product-price">
-	                	$<?php echo $slider_product->sell_value?>
+	                	<?php echo $slider_product->sell_value?>
 	              	</h4>
 <?php             elseif ($slider_product->show_value_iva):
 ?>
  					<h4 class="product-price">
-	                	$<?php echo $slider_product->sell_value_iva ?>
+	                	<?php echo $slider_product->sell_value_iva ?>
 	              	</h4>
  <?php            endif;
  ?>  
