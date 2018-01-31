@@ -91,7 +91,7 @@
             <hr class="mb-3">
             <div class="d-flex flex-wrap justify-content-between">
               <div class="sp-buttons mt-2 mb-2" style="padding: 0px 0px 0px 70%;">
-                <button class="btn btn-primary" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!" ng-click="<?php echo base_url(); ?>products/add_to_cart/<?php echo $product->slug?>><i class="icon-bag"></i> Cotizar</button>
+              	<a class="btn btn-primary scale-up delay-1" href="<?php echo base_url(); ?>products/add_to_cart/<?php echo $product->slug?>">Cotizar ahora</a>
               </div>
             </div>
           </div>

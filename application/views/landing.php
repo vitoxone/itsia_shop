@@ -1,7 +1,7 @@
-    <!-- Off-Canvas Wrapper-->
+<div id="wrapper" ng-app="myApp">
+   <div id="page-wrapper" ng-controller="UsuariosController as vm">
     <div class="offcanvas-wrapper">
-      <!-- Page Content-->
-      <!-- Main Slider-->
+
       <section class="hero-slider" style="background-image: url(<?php echo base_url(); ?>assets/img/main-bg.jpg);">
         <div class="owl-carousel large-controls dots-inside" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;autoplay&quot;: true, &quot;autoplayTimeout&quot;: 7000 }">
 <?php 
@@ -48,17 +48,17 @@
 <?php             if($slider_product->show_value):
 ?>                    
  					<h4 class="product-price">
-	                	<?php echo $slider_product->sell_value?>
+	                	<?php echo $product->sell_value?>
 	              	</h4>
-<?php             elseif ($slider_product->show_value_iva):
+<?php             elseif ($product->show_value_iva):
 ?>
  					<h4 class="product-price">
-	                	<?php echo $slider_product->sell_value_iva ?>
+	                	<?php echo $product->sell_value_iva ?>
 	              	</h4>
  <?php            endif;
  ?>  
 	              <div class="product-buttons">
-	                <button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!">Cotizar</button>
+	                <button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!" ng-click = "vm.add_to_cart(<?php echo $product->id_product ?>)">Cotizar</button>
 	              </div>
 	            </div>
 	          </div>
@@ -72,4 +72,54 @@
           <h3 class="text-center mb-30 pb-2">Nuestras marcas</h3>
           <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: false, &quot;loop&quot;: true, &quot;autoplay&quot;: false, &quot;autoplayTimeout&quot;: 4000, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2}} }"><img class="d-block w-16 opacity-75" src="<?php echo base_url(); ?>assets/img/brands/ricoh_logo.png" alt="Ricoh">     <img class="d-block w-16 opacity-75 m-auto" src="<?php echo base_url(); ?>assets/img/brands/kyocera_logo.png" alt="Brooks"></div>        </div>
       </section>
+    </div>
+</div>   
+  <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular-touch.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/angular-animate.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/angular-flash.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+  <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/rut.js"></script>
+  
+<script>
+(function(){
+    'use strict';
+    angular.module('myApp', ['ngAnimate','ngMessages', 'platanus.rut']);
+    angular.module('myApp').controller('UsuariosController', UsuariosController);
+
+
+    UsuariosController.$inject = ['$http', '$timeout'];
+    function UsuariosController($http){
+        var vm = this;
+
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+        }
+
+      vm.add_to_cart       = add_to_cart;
+
+
+	  function add_to_cart(product){
+
+	          var data = $.param({
+	          product: product
+	      });
+
+	      $http.post('<?php echo base_url(); ?>products/add_product_to_cart', data, config)
+	          .then(function(response){
+	              if(response.data !== 'false'){
+
+	                }
+	          },
+	          function(response){
+	              console.log("error al guardar agregar al carro.");
+	          }
+	      );
+	  }
+    }
+})();
+
+</script>    
    

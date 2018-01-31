@@ -95,6 +95,48 @@ class Products extends CI_Controller {
 		redirect('/products/shoping_cart/'); 
 	}
 
+	function add_product_to_cart(){
+		$this->load->model('Products_model');
+		$this->load->helper('cookie');
+
+		$id_product = $this->input->post('product');
+
+		$product = [];
+		$product = $this->Products_model->get_product_by_id($id_product);
+
+		if(!empty($product)){
+
+			$quotation_request_list = get_cookie('quotation_request');
+
+			if(empty($quotation_request_list)){
+
+				if($product){
+						$product_list[] = array('id_product' => $product->id_product,  'cantidad' => 1);
+
+		            $product_data = json_encode($product_list);
+		        }
+		    }
+		    else{
+		    	$quotation_request_list = json_decode($quotation_request_list);
+		    	$produc_exist = false;
+		    	foreach ($quotation_request_list as $item) {
+		    		if($item->id_product == $product->id_product){
+		    			$item->cantidad = $item->cantidad+1;
+		    			$produc_exist = true;
+		    		}
+		    	}
+		    	if(!$produc_exist){
+		    		$quotation_request_list[] = array('id_product' => $product->id_product,  'cantidad' => 1);
+		    	}
+		    	$product_data = json_encode($quotation_request_list);
+		    }
+
+			set_cookie('quotation_request', $product_data, '3600'); 
+		}
+		
+		return true;
+	}
+
 	public function shoping_cart(){
 		$this->load->model('Products_model');
 		$this->load->helper('cookie');
@@ -190,7 +232,15 @@ class Products extends CI_Controller {
         $products = $this->input->post('products');
         $datos_solicitante = $this->input->post('datos_solicitante');
 
-        $id_quotation_order = $this->Products_model->set_quotation_order($datos_solicitante['nombre'], $datos_solicitante['apellido'], $datos_solicitante['rut'], $datos_solicitante['email'], $datos_solicitante['telefono'], $datos_solicitante['direccion'], $datos_solicitante['region']['id_region'], $datos_solicitante['comuna']['id_comuna']);
+        $datos_solicitante['nombre']    	= isset($datos_solicitante['nombre']) ? $datos_solicitante['nombre'] : '';
+        $datos_solicitante['apellido']  	= isset($datos_solicitante['apellido']) ? $datos_solicitante['apellido'] : '';
+        $datos_solicitante['rut'] 			= isset($datos_solicitante['rut']) ? $datos_solicitante['rut'] : '';
+        $datos_solicitante['telefono'] 	= isset($datos_solicitante['telefono']) ? $datos_solicitante['telefono'] : '';
+        $datos_solicitante['direccion'] 	= isset($datos_solicitante['direccion']) ? $datos_solicitante['direccion'] : '';
+        $region 									= isset($datos_solicitante['region']['id_region']) ? $datos_solicitante['region']['id_region'] : '';
+        $comuna 									= isset($datos_solicitante['comuna']['id_comuna']) ? $datos_solicitante['comuna']['id_comuna'] : '';
+
+        $id_quotation_order = $this->Products_model->set_quotation_order($datos_solicitante['nombre'], $datos_solicitante['apellido'], $datos_solicitante['rut'], $datos_solicitante['email'], $datos_solicitante['telefono'], $datos_solicitante['direccion'], $region, $comuna);
         
         if($id_quotation_order){
 	        	foreach ($products as $product) {
